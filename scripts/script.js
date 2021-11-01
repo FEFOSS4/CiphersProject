@@ -1,5 +1,5 @@
 // Alphabets
-var engAlphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+var engAlphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 var arbAlphabets = ['ء', 'آ', 'أ', 'ؤ', 'إ', 'ئ', 'ا', 'ب', 'ة', 'ت', 'ث', 'ج', 'ح', 'خ', 'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص', 'ض', 'ط', 'ظ', 'ع', 'غ', 'ف', 'ق', 'ك', 'ل', 'م', 'ن', 'ه', 'و', 'ى', 'ي'];
 
 // Caesar Cipher
@@ -35,12 +35,10 @@ function caesarSolver(encryption) {
 
 function shiftArrayToRight(array, noShifts) {
 
-    if (noShifts < 0 && array.length == 26) {
-        shiftArrayToRight(array, noShifts + 26)
-    } else if (noShifts < 0 && array.length == 36) {
+    if (noShifts < 0 && array.length == 36) {
         shiftArrayToRight(array, noShifts + 36)
     }
-
+    
     for (var i = 0; i < noShifts; i++) {
         var temp = array.shift();
         array.push(temp);
@@ -54,9 +52,9 @@ function encryptCaesar(array, message) {
     var encryptedMessage = '';
 
     for (i = 0; i < message.length; i++) {
-        if (array.length == 26 && /^[a-z]+$/i.test((message[i]))) {
+        if (/^[a-z]+$/i.test((message[i]))) {
             encryptedMessage += array[engAlphabets.indexOf((message[i]).toUpperCase())];
-        } else if (array.length == 36 && /^[ء-ي]+$/i.test(message[i])) {
+        } else if (/^[ء-ي]+$/i.test(message[i])) {
             encryptedMessage += array[arbAlphabets.indexOf(message[i])];
         } else {
             encryptedMessage += message[i];
@@ -71,9 +69,9 @@ function decryptCaesar(array, message) {
     var decryptedMessage = '';
 
     for (i = 0; i < message.length; i++) {
-        if (array.length == 26 && /^[a-z]+$/i.test(message[i])) {
+        if (/^[a-z]+$/i.test(message[i])) {
             decryptedMessage += engAlphabets[array.indexOf((message[i]).toUpperCase())];
-        } else if (array.length == 36 && /^[ء-ي]+$/i.test(message[i])) {
+        } else if (/^[ء-ي]+$/i.test(message[i])) {
             decryptedMessage += arbAlphabets[array.indexOf(message[i])];
         } else {
             decryptedMessage += message[i];
@@ -97,7 +95,7 @@ function vigenereSolver(encryption) {
     if (!encryption) {
         for (var i = 0; i < key.length; i++) {
             if (lang === 'eng') {
-                key[i] = (26 - key[i]) % 26;
+                key[i] = (36 - key[i]) % 36;
             } else {
                 key[i] = (36 - key[i]) % 36;
             }
@@ -119,10 +117,10 @@ function encryptDecryptVigenere(key, message, lang) {
         var c = message.charCodeAt(i)
 
         if (isUppercase(c) && lang === 'eng') {
-            encryptedMessage += String.fromCharCode((c - 65 + key[j % key.length]) % 26 + 65);
+            encryptedMessage += engAlphabets[(engAlphabets.indexOf(message[i]) + key[j % key.length]) % 36].toUpperCase;
             j++;
         } else if (isLowercase(c) && lang === 'eng') {
-            encryptedMessage += String.fromCharCode((c - 97 + key[j % key.length]) % 26 + 97);
+            encryptedMessage += engAlphabets[(engAlphabets.indexOf(message[i]) + key[j % key.length]) % 36].toLowerCase;
             j++;
         } else if (isArabic(c) && lang === 'arb') {
             encryptedMessage += arbAlphabets[(arbAlphabets.indexOf(message[i]) + key[j % key.length]) % 36];
@@ -142,7 +140,7 @@ function filterKey(key, lang) {
     for (var i = 0; i < key.length; i++) {
         var c = key.charCodeAt(i);
         if (isLetter(c) && lang === 'eng') {
-            result.push((c - 65) % 32);
+            result.push(engAlphabets.indexOf(key[i]));
         } else if (isLetter(c) && lang === 'arb') {
             result.push(arbAlphabets.indexOf(key[i]));
         }
