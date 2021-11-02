@@ -190,7 +190,8 @@ function alignText(lang, textArea) {
 
 // This function is to disable number dropdown.
 function showNumbersSelect() {
-    
+// Test comment.
+
     var lan = document.getElementById('lang-option').value;
     var num = document.getElementById('num-option');
 
