@@ -188,6 +188,7 @@ function alignText(lang, textArea) {
 
 /********************* ~ OTHER FUNCTIONS ~ **********************/
 
+// This function is to disable number dropdown.
 function showNumbersSelect() {
     
     var lan = document.getElementById('lang-option').value;
