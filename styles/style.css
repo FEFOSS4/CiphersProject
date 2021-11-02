@@ -85,6 +85,13 @@ select, input {
     box-sizing: border-box;
 }
 
+#num-option {
+
+    width: 0;
+    transition: 0.5s;
+    visibility: hidden;
+}
+
 .cipher-properties {
 
     display: flex;

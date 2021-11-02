@@ -1,11 +1,14 @@
 // Alphabets
-var engAlphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+var engAlphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+var engNumAlphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 var arbAlphabets = ['ء', 'آ', 'أ', 'ؤ', 'إ', 'ئ', 'ا', 'ب', 'ة', 'ت', 'ث', 'ج', 'ح', 'خ', 'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص', 'ض', 'ط', 'ظ', 'ع', 'غ', 'ف', 'ق', 'ك', 'ل', 'م', 'ن', 'ه', 'و', 'ى', 'ي'];
 
-// Caesar Cipher
+/********************* ~ CAESAR CIPHER ~ **********************/
+
 function caesarSolver(encryption) {
 
     var lang = document.getElementById('lang-option').value;
+    var num = document.getElementById('num-option').value;
     var key = document.getElementById('key').value;
     var message = document.getElementById('cipher-text').value;
     var result = document.getElementById('result-text');
@@ -14,12 +17,14 @@ function caesarSolver(encryption) {
         key = 0;
     }
 
-    if (lang === "eng") {
+    alignText(lang, result);
+
+    if (lang === "eng" && num === "include") {
+        var shiftedArray = engNumAlphabets.slice();
+    } else if (lang === "eng" && num === "execlude") {
         var shiftedArray = engAlphabets.slice();
-        result.style.textAlign = "left";
     } else {
         var shiftedArray = arbAlphabets.slice();
-        result.style.textAlign = "right";
     }
 
     shiftedArray = shiftArrayToRight(shiftedArray, key);
@@ -37,8 +42,10 @@ function shiftArrayToRight(array, noShifts) {
 
     if (noShifts < 0 && array.length == 36) {
         shiftArrayToRight(array, noShifts + 36)
+    } else if(noShifts < 0 && array.length == 26) {
+        shiftArrayToRight(array, noShifts + 26)
     }
-    
+
     for (var i = 0; i < noShifts; i++) {
         var temp = array.shift();
         array.push(temp);
@@ -52,7 +59,9 @@ function encryptCaesar(array, message) {
     var encryptedMessage = '';
 
     for (i = 0; i < message.length; i++) {
-        if (/^[a-z]+$/i.test((message[i]))) {
+        if (/^[a-z 0-9]+$/i.test((message[i])) && array.length == 36) {
+            encryptedMessage += array[engNumAlphabets.indexOf((message[i]).toUpperCase())];
+        } else if (/^[a-z]+$/i.test((message[i])) && array.length == 26) {
             encryptedMessage += array[engAlphabets.indexOf((message[i]).toUpperCase())];
         } else if (/^[ء-ي]+$/i.test(message[i])) {
             encryptedMessage += array[arbAlphabets.indexOf(message[i])];
@@ -69,19 +78,21 @@ function decryptCaesar(array, message) {
     var decryptedMessage = '';
 
     for (i = 0; i < message.length; i++) {
-        if (/^[a-z]+$/i.test(message[i])) {
-            decryptedMessage += engAlphabets[array.indexOf((message[i]).toUpperCase())];
+        if (/^[a-z 0-9]+$/i.test((message[i])) && array.length == 36) {
+            encryptedMessage += array[engNumAlphabets.indexOf((message[i]).toUpperCase())];
+        } else if (/^[a-z]+$/i.test((message[i])) && array.length == 26) {
+            encryptedMessage += array[engAlphabets.indexOf((message[i]).toUpperCase())];
         } else if (/^[ء-ي]+$/i.test(message[i])) {
-            decryptedMessage += arbAlphabets[array.indexOf(message[i])];
+            encryptedMessage += array[arbAlphabets.indexOf(message[i])];
         } else {
-            decryptedMessage += message[i];
+            encryptedMessage += message[i];
         }
     }
 
     return decryptedMessage;
 }
 
-/*****************************************************************/
+/********************* ~ VIGENERE CIPHER ~ **********************/
 
 function vigenereSolver(encryption) {
 
@@ -89,6 +100,8 @@ function vigenereSolver(encryption) {
     var key = document.getElementById('key').value;
     var message = document.getElementById('cipher-text').value;
     var result = document.getElementById('result-text');
+
+    alignText(lang, result);
 
     key = filterKey(key, lang);
 
@@ -163,4 +176,28 @@ function isUppercase(c) {
 
 function isLowercase(c) {
     return 97 <= c && c <= 122;
+}
+
+function alignText(lang, textArea) {
+    if (lang === 'eng') {
+        textArea.style.textAlign = "left";
+    } else {
+        textArea.style.textAlign = "right";
+    }
+}
+
+/********************* ~ OTHER FUNCTIONS ~ **********************/
+
+function showNumbersSelect() {
+    
+    var lan = document.getElementById('lang-option').value;
+    var num = document.getElementById('num-option');
+
+    if (lan === 'eng') {
+        num.style.visibility = "visible";
+        num.style.width = "100%";
+    } else {
+        num.style.width = "0";
+        num.style.visibility = "invisible";
+    }
 }
