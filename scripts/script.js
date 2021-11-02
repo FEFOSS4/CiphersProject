@@ -194,10 +194,8 @@ function showNumbersSelect() {
     var num = document.getElementById('num-option');
 
     if (lan === 'eng') {
-        num.style.visibility = "visible";
-        num.style.width = "100%";
+        num.disabled = false;
     } else {
-        num.style.width = "0";
-        num.style.visibility = "invisible";
+        num.disabled = true;
     }
 }
