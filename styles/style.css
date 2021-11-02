@@ -87,7 +87,7 @@ select, input {
 
 #num-option {
 
-    width: 0px;
+    width: 0px !important;
     transition: 0.5s;
     visibility: hidden;
 }
