@@ -78,7 +78,6 @@ select, input {
     height: 40px;
     width: 100%;
     margin-left: -2px !important;
-    margin-right: 10px;
     padding: 10px 22px;
     outline: none;
     -webkit-box-sizing: border-box;
@@ -90,6 +89,11 @@ select, input {
 
     display: flex;
     margin-top: 20px;
+}
+
+.cipher-property {
+
+    width: 100%;
 }
 
 button {

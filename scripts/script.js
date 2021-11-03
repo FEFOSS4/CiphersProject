@@ -30,10 +30,10 @@ function caesarSolver(encryption) {
     shiftedArray = shiftArrayToRight(shiftedArray, key);
 
     if (encryption) {
-        var encryptedMessage = encryptCaesar(shiftedArray, message);
+        var encryptedMessage = encryptCaesar(shiftedArray, message, lang);
         result.innerHTML = encryptedMessage;
     } else {
-        var decryptedMessage = decryptCaesar(shiftedArray, message);
+        var decryptedMessage = decryptCaesar(shiftedArray, message, lang);
         result.innerHTML = decryptedMessage;
     }
 }
@@ -54,16 +54,16 @@ function shiftArrayToRight(array, noShifts) {
     return array;
 }
 
-function encryptCaesar(array, message) {
+function encryptCaesar(array, message, lang) {
 
     var encryptedMessage = '';
 
     for (i = 0; i < message.length; i++) {
-        if (/^[a-z 0-9]+$/i.test((message[i])) && array.length == 36) {
+        if (/^[a-z0-9]+$/i.test((message[i])) && array.length == 36 && lang === 'eng') {
             encryptedMessage += array[engNumAlphabets.indexOf((message[i]).toUpperCase())];
-        } else if (/^[a-z]+$/i.test((message[i])) && array.length == 26) {
-            encryptedMessage += array[engAlphabets.indexOf((message[i]).toUpperCase())];
-        } else if (/^[ء-ي]+$/i.test(message[i])) {
+        } else if (/^[a-z]+$/i.test((message[i])) && array.length == 26 && lang === 'eng') {
+            encryptedMessage += (array[engAlphabets.indexOf((message[i]).toUpperCase())]).toLowerCase();
+        } else if (/^[ء-ي]+$/i.test(message[i]) && lang === 'arb') {
             encryptedMessage += array[arbAlphabets.indexOf(message[i])];
         } else {
             encryptedMessage += message[i];
@@ -73,19 +73,19 @@ function encryptCaesar(array, message) {
     return encryptedMessage;
 }
 
-function decryptCaesar(array, message) {
+function decryptCaesar(array, message, lang) {
 
     var decryptedMessage = '';
 
     for (i = 0; i < message.length; i++) {
-        if (/^[a-z 0-9]+$/i.test((message[i])) && array.length == 36) {
-            encryptedMessage += array[engNumAlphabets.indexOf((message[i]).toUpperCase())];
-        } else if (/^[a-z]+$/i.test((message[i])) && array.length == 26) {
-            encryptedMessage += array[engAlphabets.indexOf((message[i]).toUpperCase())];
-        } else if (/^[ء-ي]+$/i.test(message[i])) {
-            encryptedMessage += array[arbAlphabets.indexOf(message[i])];
+        if (/^[a-z0-9]+$/i.test((message[i])) && array.length == 36 && lang === 'eng') {
+            decryptedMessage += engNumAlphabets[array.indexOf((message[i]).toUpperCase())];
+        } else if (/^[a-z]+$/i.test((message[i])) && array.length == 26 && lang === 'eng') {
+            decryptedMessage += engAlphabets[array.indexOf((message[i]).toUpperCase())];
+        } else if (/^[ء-ي]+$/i.test(message[i]) && lang === 'arb') {
+            decryptedMessage += arbAlphabets[array.indexOf(message[i])];
         } else {
-            encryptedMessage += message[i];
+            decryptedMessage += message[i];
         }
     }
 
@@ -188,9 +188,7 @@ function alignText(lang, textArea) {
 
 /********************* ~ OTHER FUNCTIONS ~ **********************/
 
-// This function is to disable number dropdown.
 function showNumbersSelect() {
-// Test comment.
 
     var lan = document.getElementById('lang-option').value;
     var num = document.getElementById('num-option');
