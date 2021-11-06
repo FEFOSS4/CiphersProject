@@ -30,10 +30,10 @@ function caesarSolver(encryption) {
     shiftedArray = shiftArrayToRight(shiftedArray, key);
 
     if (encryption) {
-        var encryptedMessage = encryptCaesar(shiftedArray, message, lang);
+        var encryptedMessage = encryptCaesar(shiftedArray, message, lang, num);
         result.innerHTML = encryptedMessage;
     } else {
-        var decryptedMessage = decryptCaesar(shiftedArray, message, lang);
+        var decryptedMessage = decryptCaesar(shiftedArray, message, lang, num);
         result.innerHTML = decryptedMessage;
     }
 }
@@ -54,38 +54,72 @@ function shiftArrayToRight(array, noShifts) {
     return array;
 }
 
-function encryptCaesar(array, message, lang) {
+function encryptCaesar(array, message, lang, num) {
 
     var encryptedMessage = '';
 
     for (i = 0; i < message.length; i++) {
-        if (/^[a-z0-9]+$/i.test((message[i])) && array.length == 36 && lang === 'eng') {
-            encryptedMessage += array[engNumAlphabets.indexOf((message[i]).toUpperCase())];
-        } else if (/^[a-z]+$/i.test((message[i])) && array.length == 26 && lang === 'eng') {
-            encryptedMessage += (array[engAlphabets.indexOf((message[i]).toUpperCase())]).toLowerCase();
-        } else if (/^[ء-ي]+$/i.test(message[i]) && lang === 'arb') {
+
+        var c = message.charCodeAt(i)
+
+        if (num === 'include' && lang === 'eng' && (isLetter(c) || isNumber(c))) {
+
+            if (isUppercase(c)) {
+                encryptedMessage += array[(engNumAlphabets.indexOf(message[i]))];
+            } else {
+                encryptedMessage += (array[engNumAlphabets.indexOf(message[i].toUpperCase())]).toLowerCase();
+            }
+
+        } else if (num === 'execlude' && lang === 'eng' && isLetter(c)) {
+
+            if (isUppercase(c)) {
+                encryptedMessage += array[(engAlphabets.indexOf(message[i]))];
+            } else {
+                encryptedMessage += (array[engAlphabets.indexOf(message[i].toUpperCase())]).toLowerCase();
+            }
+
+        } else if (isArabic(c) && lang === 'arb') {
+
             encryptedMessage += array[arbAlphabets.indexOf(message[i])];
+
         } else {
-            encryptedMessage += message[i];
+            encryptedMessage += message.charAt(i);
         }
     }
 
     return encryptedMessage;
 }
 
-function decryptCaesar(array, message, lang) {
+function decryptCaesar(array, message, lang, num) {
 
     var decryptedMessage = '';
 
     for (i = 0; i < message.length; i++) {
-        if (/^[a-z0-9]+$/i.test((message[i])) && array.length == 36 && lang === 'eng') {
-            decryptedMessage += engNumAlphabets[array.indexOf((message[i]).toUpperCase())];
-        } else if (/^[a-z]+$/i.test((message[i])) && array.length == 26 && lang === 'eng') {
-            decryptedMessage += engAlphabets[array.indexOf((message[i]).toUpperCase())];
-        } else if (/^[ء-ي]+$/i.test(message[i]) && lang === 'arb') {
+        
+        var c = message.charCodeAt(i)
+
+        if (num === 'include' && lang === 'eng' && (isLetter(c) || isNumber(c))) {
+
+            if (isUppercase(c)) {
+                decryptedMessage += engNumAlphabets[(array.indexOf(message[i]))];
+            } else {
+                decryptedMessage += (engNumAlphabets[array.indexOf(message[i].toUpperCase())]).toLowerCase();
+            }
+
+        } else if (num === 'execlude' && lang === 'eng' && isLetter(c)) {
+
+            if (isUppercase(c)) {
+                decryptedMessage += engAlphabets[(array.indexOf(message[i]))];
+            } else {
+                decryptedMessage += (engAlphabets[array.indexOf(message[i].toUpperCase())]).toLowerCase();
+            }
+
+        } else if (isArabic(c) && lang === 'arb') {
+
             decryptedMessage += arbAlphabets[array.indexOf(message[i])];
+
         } else {
-            decryptedMessage += message[i];
+            decryptedMessage += message.charAt(i);
         }
     }
 
@@ -97,31 +131,37 @@ function decryptCaesar(array, message, lang) {
 function vigenereSolver(encryption) {
 
     var lang = document.getElementById('lang-option').value;
+    var num = document.getElementById('num-option').value;
     var key = document.getElementById('key').value;
     var message = document.getElementById('cipher-text').value;
     var result = document.getElementById('result-text');
 
     alignText(lang, result);
 
+    if (key === '') {
+        key = 'A';
+    }
+
     key = filterKey(key, lang);
 
     if (!encryption) {
         for (var i = 0; i < key.length; i++) {
-            if (lang === 'eng') {
+            if (lang === 'eng' && num === 'execlude') {
+                key[i] = (26 - key[i]) % 26;
+            } else if (lang === 'eng' && num === 'include') {
                 key[i] = (36 - key[i]) % 36;
-            } else {
+            } else if (lang === 'arb') {
                 key[i] = (36 - key[i]) % 36;
             }
         }
     }
 
-    var resultMessage = encryptDecryptVigenere(key, message, lang);
+    var resultMessage = encryptDecryptVigenere(key, message, lang, num);
     result.innerHTML = resultMessage;
 }
 
-// This function returns the encrypted text
-// generated with the help of the key
-function encryptDecryptVigenere(key, message, lang) {
+// This function returns the encrypted / decrypted text.
+function encryptDecryptVigenere(key, message, lang, num) {
 
     var encryptedMessage = '';
 
@@ -129,15 +169,29 @@ function encryptDecryptVigenere(key, message, lang) {
         
         var c = message.charCodeAt(i)
 
-        if (isUppercase(c) && lang === 'eng') {
-            encryptedMessage += engAlphabets[(engAlphabets.indexOf(message[i]) + key[j % key.length]) % 36].toUpperCase;
+        if (num === 'include' && lang === 'eng' && (isLetter(c) || isNumber(c))) {
+
+            if (isUppercase(c)) {
+                encryptedMessage += engNumAlphabets[(engNumAlphabets.indexOf(message[i]) + key[j % key.length]) % 36];
+            } else {
+                encryptedMessage += (engNumAlphabets[(engNumAlphabets.indexOf(message[i].toUpperCase()) + key[j % key.length]) % 36]).toLowerCase();
+            }
             j++;
-        } else if (isLowercase(c) && lang === 'eng') {
-            encryptedMessage += engAlphabets[(engAlphabets.indexOf(message[i]) + key[j % key.length]) % 36].toLowerCase;
+
+        } else if (num === 'execlude' && lang === 'eng' && isLetter(c)) {
+
+            if (isUppercase(c)) {
+                encryptedMessage += engAlphabets[(engAlphabets.indexOf(message[i]) + key[j % key.length]) % 26];
+            } else {
+                encryptedMessage += (engAlphabets[(engAlphabets.indexOf(message[i].toUpperCase()) + key[j % key.length]) % 26]).toLowerCase();
+            }
             j++;
+
         } else if (isArabic(c) && lang === 'arb') {
+
             encryptedMessage += arbAlphabets[(arbAlphabets.indexOf(message[i]) + key[j % key.length]) % 36];
             j++;
+
         } else {
             encryptedMessage += message.charAt(i);
         }
@@ -151,15 +205,31 @@ function filterKey(key, lang) {
     var result = [];
     
     for (var i = 0; i < key.length; i++) {
+        
         var c = key.charCodeAt(i);
+        
         if (isLetter(c) && lang === 'eng') {
-            result.push(engAlphabets.indexOf(key[i]));
+            result.push(engAlphabets.indexOf(key[i].toUpperCase()));
         } else if (isLetter(c) && lang === 'arb') {
             result.push(arbAlphabets.indexOf(key[i]));
         }
     }
 
     return result;
+}
+
+/********************* ~ OTHER FUNCTIONS ~ **********************/
+
+function showNumbersSelect() {
+
+    var lan = document.getElementById('lang-option').value;
+    var num = document.getElementById('num-option');
+
+    if (lan === 'eng') {
+        num.disabled = false;
+    } else {
+        num.disabled = true;
+    }
 }
 
 function isLetter(c) {
@@ -178,24 +248,14 @@ function isLowercase(c) {
     return 97 <= c && c <= 122;
 }
 
+function isNumber(c) {
+    return 48 <= c && c <= 57;
+}
+
 function alignText(lang, textArea) {
     if (lang === 'eng') {
         textArea.style.textAlign = "left";
     } else {
         textArea.style.textAlign = "right";
-    }
-}
-
-/********************* ~ OTHER FUNCTIONS ~ **********************/
-
-function showNumbersSelect() {
-
-    var lan = document.getElementById('lang-option').value;
-    var num = document.getElementById('num-option');
-
-    if (lan === 'eng') {
-        num.disabled = false;
-    } else {
-        num.disabled = true;
     }
 }
