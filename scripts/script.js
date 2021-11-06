@@ -218,6 +218,80 @@ function filterKey(key, lang) {
     return result;
 }
 
+/********************* ~ MONOALPHABETIC CIPHER ~ **********************/
+
+function monoSolver(encryption) {
+
+    var lang = document.getElementById('lang-option').value;
+    var num = document.getElementById('num-option').value;
+    var key = document.getElementById('key').value;
+    var message = document.getElementById('cipher-text').value;
+    var result = document.getElementById('result-text');
+    var resultMessage;
+
+    alignText(lang, result);
+
+    if (encryption) {
+        resultMessage = monoEncrypt(key, message, lang, num);
+        result.innerHTML = resultMessage;
+    } else if (!encryption) {
+        resultMessage = monoDecrypt(key, message, lang, num);
+        result.innerHTML = resultMessage;
+    }
+}
+
+function monoEncrypt(key, message, lang, num) {
+
+    var textArr = message.split("");
+    key.split("");
+    var array = [];
+
+    if (lang === "eng" && num === "include") {
+        var array = engNumAlphabets.slice();
+    } else if (lang === "eng" && num === "execlude") {
+        var array = engAlphabets.slice();
+    } else {
+        var array = arbAlphabets.slice();
+    }
+
+    for (let i = 0; i < textArr.length; i++) {
+        if ((textArr[i] == ' ') || (textArr[i] == '\t') || (textArr[i] == '\n' || array.indexOf(textArr[i].toUpperCase()) == -1)) {
+            continue;
+
+        } else
+            textArr[i] = key[array.indexOf(textArr[i].toUpperCase())];
+    }
+    textArr.join().replace(/,/g, '')
+    return textArr.join('');
+}
+
+
+function monoDecrypt(key, message, lang, num) {
+
+    var textArr = message.split("");
+    key.split("");
+    var array = [];
+
+    if (lang === "eng" && num === "include") {
+        var array = engNumAlphabets.slice();
+    } else if (lang === "eng" && num === "execlude") {
+        var array = engAlphabets.slice();
+    } else {
+        var array = arbAlphabets.slice();
+    }
+
+    for (let i = 0; i < textArr.length; i++) {
+        if ((textArr[i] == ' ') || (textArr[i] == '\t') || (textArr[i] == '\n' || array.indexOf(textArr[i].toUpperCase()) == -1)) {
+            continue;
+
+        } else {
+            textArr[i] = array[key.toUpperCase().indexOf(textArr[i].toUpperCase())];
+        }
+    }
+    textArr.join().replace(/,/g, '')
+    return textArr.join('');
+}
+
 /********************* ~ OTHER FUNCTIONS ~ **********************/
 
 function showNumbersSelect() {
