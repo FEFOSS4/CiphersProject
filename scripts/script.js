@@ -2,7 +2,6 @@
 var engAlphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 var engNumAlphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 var arbAlphabets = ['ء', 'آ', 'أ', 'ؤ', 'إ', 'ئ', 'ا', 'ب', 'ة', 'ت', 'ث', 'ج', 'ح', 'خ', 'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص', 'ض', 'ط', 'ظ', 'ع', 'غ', 'ف', 'ق', 'ك', 'ل', 'م', 'ن', 'ه', 'و', 'ى', 'ي'];
-
 /********************* ~ CAESAR CIPHER ~ **********************/
 
 function caesarSolver(encryption) {
@@ -42,7 +41,7 @@ function shiftArrayToRight(array, noShifts) {
 
     if (noShifts < 0 && array.length == 36) {
         shiftArrayToRight(array, noShifts + 36)
-    } else if(noShifts < 0 && array.length == 26) {
+    } else if (noShifts < 0 && array.length == 26) {
         shiftArrayToRight(array, noShifts + 26)
     }
 
@@ -95,7 +94,7 @@ function decryptCaesar(array, message, lang, num) {
     var decryptedMessage = '';
 
     for (i = 0; i < message.length; i++) {
-        
+
         var c = message.charCodeAt(i)
 
         if (num === 'include' && lang === 'eng' && (isLetter(c) || isNumber(c))) {
@@ -166,7 +165,7 @@ function encryptDecryptVigenere(key, message, lang, num) {
     var encryptedMessage = '';
 
     for (var i = 0, j = 0; i < message.length; i++) {
-        
+
         var c = message.charCodeAt(i)
 
         if (num === 'include' && lang === 'eng' && (isLetter(c) || isNumber(c))) {
@@ -201,13 +200,13 @@ function encryptDecryptVigenere(key, message, lang, num) {
 }
 
 function filterKey(key, lang) {
-    
+
     var result = [];
-    
+
     for (var i = 0; i < key.length; i++) {
-        
+
         var c = key.charCodeAt(i);
-        
+
         if (isLetter(c) && lang === 'eng') {
             result.push(engAlphabets.indexOf(key[i].toUpperCase()));
         } else if (isLetter(c) && lang === 'arb') {
@@ -291,6 +290,103 @@ function monoDecrypt(key, message, lang, num) {
     textArr.join().replace(/,/g, '')
     return textArr.join('');
 }
+
+/********************* ~ Affine CIPHER ~ **********************/
+function affineSolver(encryption) {
+
+    var lang = document.getElementById('lang-option').value;
+    var num = document.getElementById('num-option').value;
+    var key = document.getElementById('key').value;
+    var key2 = document.getElementById('key2').value;
+    var message = document.getElementById('cipher-text').value;
+    var result = document.getElementById('result-text');
+    var resultMessage;
+
+    alignText(lang, result);
+
+    if (encryption) {
+            resultMessage = AffineEncrypt(key, key2, message.toUpperCase(), lang, num);
+            result.innerHTML = resultMessage;
+    } else if (!encryption) {
+        resultMessage = AffineDecrypt(key, key2, message.toUpperCase(), lang, num);
+        result.innerHTML = resultMessage;
+    }
+}
+
+function AffineEncrypt(a, b, message, lang, num) {
+
+    var textArr = message.split("");
+
+    a = parseInt(a);
+    b = parseInt(b);
+
+    var array = [];
+
+    if (lang === "eng" && num === "include") {
+        var array = engNumAlphabets.slice();
+    } else if (lang === "eng" && num === "execlude") {
+        var array = engAlphabets.slice();
+    } else {
+        var array = arbAlphabets.slice();
+    }
+
+    for (let i = 0; i < textArr.length; i++) {
+        if ((textArr[i] == ' ') || (textArr[i] == '\t') || (textArr[i] == '\n' || array.indexOf(textArr[i].toUpperCase()) == -1)) {
+            continue;
+
+        } else
+            var alphaIndex = array.indexOf(textArr[i]);
+        var crypt = (a * alphaIndex + b) % array.length;
+        textArr[i] = array[crypt];
+    }
+    textArr.join().replace(/,/g, '')
+    return textArr.join('');
+}
+
+
+function AffineDecrypt(a, b, message, lang, num) {
+
+
+    var textArr = message.split("");
+
+    a = parseInt(a);
+    b = parseInt(b);
+
+    var array = [];
+
+    if (lang === "eng" && num === "include") {
+        var array = engNumAlphabets.slice();
+    } else if (lang === "eng" && num === "execlude") {
+        var array = engAlphabets.slice();
+    } else {
+        var array = arbAlphabets.slice();
+    }
+
+    for (var i = 0; i < message.length; i++) {
+        a %= array.length;
+
+        for (var j = 1; j < array.length; j++) {
+            if ((a * j) % array.length == 1)
+                var invert = j;
+        }
+    }
+
+    for (let i = 0; i < textArr.length; i++) {
+        if ((textArr[i] == ' ') || (textArr[i] == '\t') || (textArr[i] == '\n' || array.indexOf(textArr[i].toUpperCase()) == -1)) {
+            continue;
+
+        } else
+            var alphaIndex = array.indexOf(textArr[i]);
+        var crypt = (invert * (alphaIndex - b)) % array.length;
+        if (crypt < 0)
+            crypt += array.length;
+        textArr[i] = array[crypt];
+    }
+    textArr.join().replace(/,/g, '')
+    return textArr.join('');
+}
+
+
 
 /********************* ~ OTHER FUNCTIONS ~ **********************/
 

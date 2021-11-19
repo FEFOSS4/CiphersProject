@@ -1,139 +1,123 @@
 * {
-
-    font-family: 'Comfortaa', cursive;
+  font-family: "Comfortaa", cursive;
 }
 
 body {
-
-    background-image: url('https://wallpapercave.com/wp/wp2730030.gif');
-    background-size: 20%;
-    height: 100vh;
-    padding:0;
-    margin:0;
+  background-image: url("https://wallpapercave.com/wp/wp2730030.gif");
+  background-size: 20%;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
 }
 
 h1 {
-    
-    font-size: 50px !important;
-    text-align: center;
-    margin-bottom: 10px;
-    color: white !important;
+  font-size: 50px !important;
+  text-align: center;
+  margin-bottom: 10px;
+  color: white !important;
 }
 
 .page-content {
-
-    display: inline-flex;
+  display: inline-flex;
 }
 
 .navigation-bar {
-
-    margin: 10pt auto 10pt auto;
-    height: 450px;
+  margin: 10pt auto 10pt auto;
+  height: 550px;
 }
 
 ul {
-    
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
 }
 
-a:link, a:visited {
-
-    text-decoration: none !important;
-    text-align: center;
-    padding: 20px;
-    background-color: #ccc;
-    border-radius: 25px;
-    color: black;
-    font-size: 1.75rem !important;
-    display: block;
+a:link,
+a:visited {
+  text-decoration: none !important;
+  text-align: center;
+  padding: 20px;
+  background-color: #ccc;
+  border-radius: 25px;
+  color: black;
+  font-size: 1.75rem !important;
+  display: block;
 }
 
-a:hover, a:active, a:focus {
-
-    cursor: pointer;
-    background-color: #777;
-    color: white !important;
+a:hover,
+a:active,
+a:focus {
+  cursor: pointer;
+  background-color: #777;
+  color: white !important;
 }
 
 .cipher-panel {
-    
-    width: 80%;
-    margin: 10pt auto 10pt auto;
+  width: 80%;
+  margin: 10pt auto 10pt auto;
 }
 
 .jumbotron {
-
-    padding-left: 20px !important;
-    padding-right: 20px !important;
-    margin-bottom: 0 !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  margin-bottom: 0 !important;
 }
 
 .cipher-form {
-
-    width: 90%;
-    height: 95%;
-    margin: 10px auto 10px auto;
+  width: 90%;
+  height: 95%;
+  margin: 10px auto 10px auto;
 }
 
-select, input {
-
-    height: 40px;
-    width: 100%;
-    margin-left: -2px !important;
-    padding: 10px 22px;
-    outline: none;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+select,
+input {
+  height: 40px;
+  width: 100%;
+  margin-left: -2px !important;
+  padding: 10px 22px;
+  outline: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .cipher-properties {
-
-    display: flex;
-    margin-top: 20px;
+  display: flex;
+  margin-top: 20px;
 }
 
 .cipher-property {
-
-    width: 100%;
+  width: 100%;
 }
 
 button {
-
-    font-size: 16px !important;
+  font-size: 16px !important;
 }
 
 button:focus {
-
-    outline: none !important;
+  outline: none !important;
 }
 
 textarea {
-
-    width: 100%;
-    min-height: 30vh;
-    resize: vertical;
+  width: 100%;
+  min-height: 30vh;
+  resize: vertical;
 }
 
 textarea {
-
-    padding: 10px 15px;
-    border: none;
-    border-radius: 2pt;
-    box-shadow: 0 0 0 1pt grey;
-    outline: none;
-    font-size: 16px !important;
-    transition: 1.0s;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 2pt;
+  box-shadow: 0 0 0 1pt grey;
+  outline: none;
+  font-size: 16px !important;
+  transition: 1s;
 }
 
 textarea:focus {
-    
-    box-shadow: 0 0 3pt 2pt cornflowerblue;
+  box-shadow: 0 0 3pt 2pt cornflowerblue;
 }
 
 textarea:focus {
-
-    box-shadow: 0 0 0 1.5pt #777;
+  box-shadow: 0 0 0 1.5pt #777;
 }
