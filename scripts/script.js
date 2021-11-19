@@ -302,14 +302,34 @@ function affineSolver(encryption) {
     var result = document.getElementById('result-text');
     var resultMessage;
 
-    alignText(lang, result);
+    var length = 0;
+    if (lang == "eng" && num == "include") {
+        length = 36;
+    } else if (lang == "eng" && num == "execlude") {
+        length = 26;
+    } else {
+        length = 36
+    }
+    key = parseInt(key);
+    length = parseInt(length);
 
-    if (encryption) {
+    var checkGCD = gcd(key, length);
+
+    alignText(lang, result);
+    if (checkGCD === 1) {
+        document.getElementById('key').style.backgroundColor = '';
+        document.getElementById('key').style.borderColor = '';
+        if (encryption) {
             resultMessage = AffineEncrypt(key, key2, message.toUpperCase(), lang, num);
             result.innerHTML = resultMessage;
-    } else if (!encryption) {
-        resultMessage = AffineDecrypt(key, key2, message.toUpperCase(), lang, num);
-        result.innerHTML = resultMessage;
+        } else if (!encryption) {
+            resultMessage = AffineDecrypt(key, key2, message.toUpperCase(), lang, num);
+            result.innerHTML = resultMessage;
+        }
+    } else {
+        alert('You Should Enter the first Key as Prime number for mod 26 or mod 36')
+        document.getElementById('key').style.backgroundColor = '#FF4545';
+        document.getElementById('key').style.borderColor = '#FF4545';
     }
 }
 
@@ -428,4 +448,17 @@ function alignText(lang, textArea) {
     } else {
         textArea.style.textAlign = "right";
     }
+}
+
+function gcd(x, y) {
+    if ((typeof x !== 'number') || (typeof y !== 'number'))
+        return false;
+    x = Math.abs(x);
+    y = Math.abs(y);
+    while (y) {
+        var t = y;
+        y = x % y;
+        x = t;
+    }
+    return x;
 }
