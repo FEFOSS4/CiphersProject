@@ -291,7 +291,7 @@ function monoDecrypt(key, message, lang, num) {
     return textArr.join('');
 }
 
-/********************* ~ Affine CIPHER ~ **********************/
+/********************* ~ AFFINE CIPHER ~ **********************/
 function affineSolver(encryption) {
 
     var lang = document.getElementById('lang-option').value;
@@ -318,7 +318,7 @@ function affineSolver(encryption) {
     alignText(lang, result);
     if (checkGCD === 1) {
         document.getElementById('key').style.backgroundColor = '';
-        document.getElementById('key').style.borderColor = '';
+        document.getElementById('key').style.color = '';
         if (encryption) {
             resultMessage = AffineEncrypt(key, key2, message.toUpperCase(), lang, num);
             result.innerHTML = resultMessage;
@@ -328,8 +328,7 @@ function affineSolver(encryption) {
         }
     } else {
         alert('You Should Enter the first Key as Prime number for mod 26 or mod 36')
-        document.getElementById('key').style.backgroundColor = '#FF4545';
-        document.getElementById('key').style.borderColor = '#FF4545';
+        document.getElementById('key').style.setProperty("color", "#c60000", "important");;
     }
 }
 
@@ -416,8 +415,10 @@ function showNumbersSelect() {
     var num = document.getElementById('num-option');
 
     if (lan === 'eng') {
+        num.style.setProperty("background-color", "#3a9535", "important");
         num.disabled = false;
     } else {
+        num.style.setProperty("background-color", "grey", "important");
         num.disabled = true;
     }
 }
@@ -462,3 +463,19 @@ function gcd(x, y) {
     }
     return x;
 }
+
+/********************* ~ ANIMATIONS ~ **********************/
+
+$( document ).ready(function() {
+    $('.dropdown-menu').show();
+    $('.dropdown-menu').hide();
+});
+
+$('.dropdown-toggle').focusout(function () {
+    $(this).next('.dropdown-menu').slideUp(400);
+});
+
+$('.dropdown-toggle').click(function () {
+    $(this).next('.dropdown-menu').slideToggle(600);
+});
+

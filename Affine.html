@@ -3,29 +3,30 @@
 
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cryptography Project</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <title>CIPHER SOLVER</title>
+
+    <!-- icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="manifest" href="/site.webmanifest">
 
     <!-- CSS -->
     <link rel="stylesheet" href="styles/style.css">
+
     <!-- BOOTSTRAP CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
-        integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
-    <!-- BOOTSTRAP JavaScript -->
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
-        integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
-        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
-        crossorigin="anonymous"></script>
-    <!-- JavaScript-->
-    <script src="scripts/script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
 
 </head>
 
@@ -34,104 +35,101 @@
     <div class="container">
 
         <div class="page-header">
-            <h1>CIPHER SOLVER</h1>
+            <img src="images/page-title.png" alt="title" id="title">
         </div>
 
         <div class="page-content">
-            <div class="panel panel-default navigation-bar">
 
-                <div class="panel-heading" style="text-align: center;">
-                    <h3 class="panel-title">Ciphers</h3>
-                </div>
-
-                <div class="panel-body">
-                    <div class="jumbotron">
-                        <ul>
-                            <li><a href="index.html">Caesar</a></li>
-                            <hr style="height: 2px; background-color: #ccc; border: none;">
-                            <li><a href="vigenere.html">Vigenere</a></li>
-                            <hr style="height: 2px; background-color: #ccc; border: none;">
-                            <li><a href="monoalphabetic.html">Mono</a></li>
-                            <hr style="height: 2px; background-color: #ccc; border: none;">
-                            <li><a href="Affine.html">Affine</a></li>
-                        </ul>
-                    </div>
-                </div>
+            <hr>
+            <div class="btn-group">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside"
+                    data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                    Affine Cipher
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
+                    <li><a class="dropdown-item" href="index.html">Caesar Cipher</a></li>
+                    <li><a class="dropdown-item" href="vigenere.html">Vigenere Cipher</a></li>
+                    <li><a class="dropdown-item" href="monoalphabetic.html">Monoalphabetic Cipher</a></li>
+                </ul>
             </div>
 
-            <div class="panel panel-default cipher-panel">
+            <div class="cipher-section">
 
-                <div class="panel-heading">
-                    <h3 class="panel-title">Affine Cipher</h3>
+                <div class="cipher-input">
+
+                    <h3>INPUT TEXT</h3>
+
+                    <div class="input-field" style="max-height: 92.7%; min-height: 92.7%;">
+                        <textarea name="input" id="cipher-text" cols="30" rows="10"
+                            placeholder="Type input text..."></textarea>
+                    </div>
                 </div>
 
-                <div class="panel-body">
-                    <div class="jumbotron">
-                        <form action="#" class="cipher-form">
+                <div class="cipher-settings">
 
-                            <textarea name="cipher" id="cipher-text" cols="30" rows="10"
-                                placeholder="Enter Your Message Here..."></textarea>
+                    <h3>OPTIONS</h3>
 
-                            <div class="cipher-properties">
-                                <div class="input-group cipher-property">
-                                    <span class="input-group-addon" id="basic-addon1"><span
-                                            class="glyphicon glyphicon-globe" aria-hidden="true"></span></span>
-                                    <select name="language" id="lang-option" onchange="showNumbersSelect();">
-                                        <option value="eng">English</option>
-                                        <option value="arb">Arabic</option>
-                                    </select>
-                                </div>
-
-                                <div class="input-group cipher-property">
-                                    <span class="input-group-addon" id="basic-addon2"><span
-                                            class="glyphicon glyphicon-sort-by-order" aria-hidden="true"></span></span>
-                                    <select name="language" id="num-option">
-                                        <option value="include">Include Numbers</option>
-                                        <option value="execlude">Execlude Numbers</option>
-                                    </select>
-                                </div>
-                                <div class="input-group cipher-property">
-                                    <span class="input-group-addon" id="basic-addon3"><span
-                                            class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-                                    <input type="text" placeholder="Input the key..." id="key">                                    
-                                </div>
-                                <div class="input-group cipher-property">
-                                    <span class="input-group-addon" id="basic-addon3"><span
-                                            class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-                                            <input type="text" placeholder="Input the key2..." id="key2">                                    
-                                </div>
+                    <div class="settings-field">
+                        <form action="#">
+                            <div class="settings">
+                                <h5>Language:</h5>
+                                <select class="form-select" aria-label="language" name="language" id="lang-option"
+                                    onchange="showNumbersSelect();">
+                                    <option selected value="eng">English</option>
+                                    <option value="arb">Arabic</option>
+                                </select>
                             </div>
-                            
-                            <hr style="height: 2px; background-color: #ccc; border: none;">
-
-                            <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-default"
-                                        onclick="affineSolver(false);">Decrypt</button>
-                                </div>
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-default"
-                                        onclick="affineSolver   (true);">Encrypt</button>
-                                </div>
+                            <div class="settings">
+                                <h5>Include numbers:</h5>
+                                <select class="form-select" aria-label="language" name="num" id="num-option">
+                                    <option selected value="include">Include</option>
+                                    <option value="execlude">Execlude</option>
+                                </select>
                             </div>
-
-                            <hr style="height: 2px; background-color: #ccc; border: none;">
-
-                            <textarea name="cipher" id="result-text" cols="30" rows="10" placeholder="Result..."
-                                readonly></textarea>
-
+                            <div class="settings">
+                                <h5>Key 1:</h5>
+                                <input type="text" placeholder="Enter the first key..." id="key" class="form-control keys">
+                            </div>
+                            <div class="settings">
+                                <h5>Key 2:</h5>
+                                <input type="text" placeholder="Enter the second key..." id="key2" class="form-control keys">
+                            </div>
+                            <div class="btn-settings">
+                                <button type="button" class="btn btn-primary dec" onclick="affineSolver(false);">Decrypt</button>
+                                <button type="button" class="btn btn-primary enc" onclick="affineSolver(true);">Encrypt</button>
+                            </div>
                         </form>
+                    </div>
+                </div>
+
+
+                <div class="cipher-output">
+
+                    <h3>OUTPUT TEXT</h3>
+
+                    <div class="output-field" style="max-height: 92.7%; min-height: 92.7%;">
+                        <textarea name="input" id="result-text" cols="30" rows="10"
+                            placeholder="Output text..."></textarea>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!--
     <br><hr>
 
-    <p>&copy; This webpage was created by Faisal AL-Qurashi, Raiyan AL-Seiami and Ahmad Baghdady for the course Introduction to cryptography.</p>
--->
+    <p>&copy; This webpage was created by Faisal AL-Qurashi, Raiyan AL-Seiami, Ahmad Baghdady and Yasin for the course "Introduction to cryptography&trade;".</p>
+
+    <!-- BOOTSTRAP JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+    <!-- JQUERY 1.12 -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+    <!-- JavaScript -->
+    <script src="scripts/script.js"></script>
 </body>
 
 </html>
