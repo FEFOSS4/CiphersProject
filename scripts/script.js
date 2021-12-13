@@ -408,25 +408,12 @@ function AffineDecrypt(a, b, message, lang, num) {
 /********************* ~ Rail Fence CIPHER ~ **********************/
 function railSolver(encryption) {
 
-    var lang = document.getElementById('lang-option').value;
-    var num = document.getElementById('num-option').value;
     var key = document.getElementById('key').value;
     var message = document.getElementById('cipher-text').value;
     var result = document.getElementById('result-text');
     var resultMessage;
 
-    var length = 0;
-    if (lang == "eng" && num == "include") {
-        length = 36;
-    } else if (lang == "eng" && num == "execlude") {
-        length = 26;
-    } else {
-        length = 36
-    }
     key = parseInt(key);
-    length = parseInt(length);
-
-    alignText(lang, result);
 
         if (encryption) {
             resultMessage = railEncrypt(key, message.toUpperCase());
@@ -449,12 +436,11 @@ function railEncrypt(key, message) {
         fence[rail].push(char);
 
         rail += change;
-        //check if rail go beyond boundaries then comeback
         if (rail === key - 1 || rail === 0) change = -change;
       }
 
       let text = "";
-      //join all the rail
+
       for (let rail of fence) text += rail.join("");
     
       return text;
@@ -470,6 +456,7 @@ function railDecrypt(key, message) {
     message.split("").forEach((char) => {
         fence[rail].push(0);
         rail += change;
+        
         if (rail === key - 1 || rail === 0) change = -change;
       });
     
@@ -489,7 +476,6 @@ function railDecrypt(key, message) {
       for (var i = 0; i < message.length; i++) {
         text += rFence[rail].shift();
         rail += change;
-    
         if (rail === key - 1 || rail === 0) change = -change;
       }
     
