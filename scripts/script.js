@@ -406,6 +406,97 @@ function AffineDecrypt(a, b, message, lang, num) {
     return textArr.join('');
 }
 
+/********************* ~ Rail Fence CIPHER ~ **********************/
+function railSolver(encryption) {
+
+    var lang = document.getElementById('lang-option').value;
+    var num = document.getElementById('num-option').value;
+    var key = document.getElementById('key').value;
+    var message = document.getElementById('cipher-text').value;
+    var result = document.getElementById('result-text');
+    var resultMessage;
+
+    var length = 0;
+    if (lang == "eng" && num == "include") {
+        length = 36;
+    } else if (lang == "eng" && num == "execlude") {
+        length = 26;
+    } else {
+        length = 36
+    }
+    key = parseInt(key);
+    length = parseInt(length);
+
+    alignText(lang, result);
+
+        if (encryption) {
+            resultMessage = railEncrypt(key, message.toUpperCase());
+            result.innerHTML = resultMessage;
+        } else if (!encryption) {
+            resultMessage = railDecrypt(key, message.toUpperCase());
+            result.innerHTML = resultMessage;
+        }
+    
+}
+
+function railEncrypt(key, message) {
+
+    let fence = [];
+    for (let i = 0; i < key; i++) fence.push([]);
+    let rail = 0;
+    let change = 1;
+
+    for (let char of message.split("")) {
+        fence[rail].push(char);
+
+        rail += change;
+        //check if rail go beyond boundaries then comeback
+        if (rail === key - 1 || rail === 0) change = -change;
+      }
+
+      let text = "";
+      //join all the rail
+      for (let rail of fence) text += rail.join("");
+    
+      return text;
+
+}
+
+function railDecrypt(key, message) {
+    let fence = [];
+    for (let i = 0; i < key; i++) fence.push([]);
+    let rail = 0;
+    let change = 1;
+
+    message.split("").forEach((char) => {
+        fence[rail].push(0);
+        rail += change;
+        if (rail === key - 1 || rail === 0) change = -change;
+      });
+    
+      const rFence = [];
+      for (let i = 0; i < key; i++) rFence.push([]);
+    
+      i = 0;
+      let msg = message.split("");
+      for (text of fence) {
+        for (let j = 0; j < text.length; j++) rFence[i].push(msg.shift());
+        i++;
+      }
+      rail = 0;
+      change = 1;
+
+      var text = "";
+      for (var i = 0; i < message.length; i++) {
+        text += rFence[rail].shift();
+        rail += change;
+    
+        if (rail === key - 1 || rail === 0) change = -change;
+      }
+    
+      return text;
+
+}
 
 
 /********************* ~ OTHER FUNCTIONS ~ **********************/
