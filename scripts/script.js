@@ -544,8 +544,17 @@ function gcd(x, y) {
 /********************* ~ ANIMATIONS ~ **********************/
 
 $( document ).ready(function() {
+    
     $('.dropdown-menu').show();
     $('.dropdown-menu').hide();
+
+    var optionsLen = ($('.cipher-settings').height()/1.2);
+    console.log(optionsLen);
+
+    if (optionsLen > $('.input-settings').height()) {
+        $('.input-field').css("height", optionsLen);
+        $('.output-field').css("height", optionsLen);
+    }
 });
 
 $('.dropdown-toggle').focusout(function () {

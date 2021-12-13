@@ -43,8 +43,8 @@
             <hr>
             <div class="btn-group">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside"
-                    data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                    Caesar Cipher
+                    data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style="font-size: 1.7vw;">
+                    Rail Fence Cipher
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
                     <li><a class="dropdown-item" href="index.html">Caesar Cipher</a></li>
@@ -71,10 +71,10 @@
                     <h3>OPTIONS</h3>
 
                     <div class="settings-field">
-                        <form action="#">
+                        <form action="#" class="settings-form">
                             <div class="settings">
                                 <h5>Rows:</h5>
-                                <input type="text" placeholder="Enter the Rows..." id="key" class="form-control keys">
+                                <input type="text" placeholder="Enter the number of Rows..." id="key" class="form-control keys">
                             </div>
                             <div class="btn-settings">
                                 <button type="button" class="btn btn-primary dec" onclick="railSolver(false);">Decrypt</button>

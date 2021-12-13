@@ -50,7 +50,7 @@ hr {
   font-size: 2vw;
   width: 20%;
   border-radius: 0px 0px 1em 1em;
-  margin: 0px auto 0 auto;
+  margin: 0 auto 0 auto;
   display: block;
 }
 
@@ -89,9 +89,11 @@ hr {
 }
 
 .cipher-section {
-  width: 100%;
-  display: flex;
+  display:flex;
+  align-items:center;
+  padding-bottom: 2.8vh;
   justify-content: space-between;
+  overflow: auto;
 }
 
 .cipher-input {
@@ -103,8 +105,8 @@ hr {
   text-align: center;
   color: #2bc20e;
   box-shadow: -2px 0 18px #2bc20e;
-  display: inline-block;
   overflow: hidden;
+  float: left;
 }
 
 .cipher-output {
@@ -116,8 +118,8 @@ hr {
   text-align: center;
   color: #2bc20e;
   box-shadow: 2px 0 18px #2bc20e;
-  display: inline-block;
   overflow: hidden;
+  float: left;
 }
 
 .cipher-settings {
@@ -130,12 +132,11 @@ hr {
   color: #2bc20e;
   box-shadow: 2px 0 18px #2bc20e;
   overflow: hidden;
+  float: left;
 }
 
 .input-field {
   height: 100%;
-  max-height: 90.7%;
-  min-height: 90.7%;
   background-color: black;
   border-radius: 0 15px 15px 0;
   overflow: hidden;
@@ -143,8 +144,6 @@ hr {
 
 .output-field {
   height: 100%;
-  max-height: 90.7%;
-  min-height: 90.7%;
   background-color: black;
   border-radius: 15px 0 0 15px;
 }
@@ -189,6 +188,11 @@ hr {
   border-radius: 15px 0 0 15px;
   resize: none;
   outline: none;
+}
+
+.settings-form {
+  height: 100%;
+  display: block;
 }
 
 .settings {
