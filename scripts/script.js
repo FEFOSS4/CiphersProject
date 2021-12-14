@@ -317,7 +317,6 @@ function affineSolver(encryption) {
 
     alignText(lang, result);
     if (checkGCD === 1) {
-        document.getElementById('key').style.backgroundColor = '';
         document.getElementById('key').style.color = '';
         if (encryption) {
             resultMessage = AffineEncrypt(key, key2, message.toUpperCase(), lang, num);
@@ -327,8 +326,8 @@ function affineSolver(encryption) {
             result.innerHTML = resultMessage;
         }
     } else {
-        alert('You Should Enter the first Key as Prime number for mod 26 or mod 36')
-        document.getElementById('key').style.setProperty("color", "#c60000", "important");;
+        alert('You should enter the first key as Prime number for mod 26 or mod 36 !');
+        document.getElementById('key').style.setProperty("color", "#c60000", "important");
     }
 }
 
@@ -405,7 +404,7 @@ function AffineDecrypt(a, b, message, lang, num) {
     return textArr.join('');
 }
 
-/********************* ~ Rail Fence CIPHER ~ **********************/
+/********************* ~ RAIL FENCE CIPHER ~ **********************/
 function railSolver(encryption) {
 
     var key = document.getElementById('key').value;
@@ -415,14 +414,14 @@ function railSolver(encryption) {
 
     key = parseInt(key);
 
-        if (encryption) {
-            resultMessage = railEncrypt(key, message.toUpperCase());
-            result.innerHTML = resultMessage;
-        } else if (!encryption) {
-            resultMessage = railDecrypt(key, message.toUpperCase());
-            result.innerHTML = resultMessage;
-        }
-    
+    if (encryption) {
+        resultMessage = railEncrypt(key, message.toUpperCase());
+        result.innerHTML = resultMessage;
+    } else if (!encryption) {
+        resultMessage = railDecrypt(key, message.toUpperCase());
+        result.innerHTML = resultMessage;
+    }
+
 }
 
 function railEncrypt(key, message) {
@@ -437,13 +436,13 @@ function railEncrypt(key, message) {
 
         rail += change;
         if (rail === key - 1 || rail === 0) change = -change;
-      }
+    }
 
-      let text = "";
+    let text = "";
 
-      for (let rail of fence) text += rail.join("");
-    
-      return text;
+    for (let rail of fence) text += rail.join("");
+
+    return text;
 
 }
 
@@ -456,33 +455,332 @@ function railDecrypt(key, message) {
     message.split("").forEach((char) => {
         fence[rail].push(0);
         rail += change;
-        
+
         if (rail === key - 1 || rail === 0) change = -change;
-      });
-    
-      const rFence = [];
-      for (let i = 0; i < key; i++) rFence.push([]);
-    
-      i = 0;
-      let msg = message.split("");
-      for (text of fence) {
+    });
+
+    const rFence = [];
+    for (let i = 0; i < key; i++) rFence.push([]);
+
+    i = 0;
+    let msg = message.split("");
+    for (text of fence) {
         for (let j = 0; j < text.length; j++) rFence[i].push(msg.shift());
         i++;
-      }
-      rail = 0;
-      change = 1;
+    }
+    rail = 0;
+    change = 1;
 
-      var text = "";
-      for (var i = 0; i < message.length; i++) {
+    var text = "";
+    for (var i = 0; i < message.length; i++) {
         text += rFence[rail].shift();
         rail += change;
         if (rail === key - 1 || rail === 0) change = -change;
-      }
-    
-      return text;
+    }
+
+    return text;
 
 }
 
+/********************* ~ PLAYFAIR CIPHER ~ **********************/
+
+function playfairSolver(encryption) {
+
+    var lang = document.getElementById('lang-option').value;
+    var num = document.getElementById('num-option').value;
+    var key = document.getElementById('key').value.toUpperCase();
+    var message = document.getElementById('cipher-text').value.toUpperCase();
+    var result = document.getElementById('result-text');
+    var resultMessage;
+    
+    document.getElementById('key').style.color = '';
+
+    var board;
+
+    if (lang === 'eng' && num === 'execlude') {
+        
+        key = key.replace(/[^\a-zA-Z]/g, '');
+
+        if ((/\d/).test(key)) {
+            alert('To be able to add numbers, set "Include numbers" to "Include" !');
+            document.getElementById('key').style.setProperty("color", "#c60000", "important");
+            return;
+        }
+
+        board = createBoard5x5(key);
+    } else if (lang === 'eng' && num === 'include') {
+        
+        key = key.replace(/[^\w]/g,'');
+        board = createBoard6x6(key, lang);
+    } else {
+
+        key = key.replace(/[^\ء-ي]/g,'');
+        board = createBoard6x6(key);
+    }
+    
+    resultMessage = modifyMessage(message, lang, num);
+
+    if (encryption) {
+        resultMessage = encryptPlayfair(resultMessage, message, board, lang);
+        result.innerHTML = resultMessage;
+    } else {
+        resultMessage = decryptPlayfair(resultMessage, message, board, lang);
+        result.innerHTML = resultMessage;
+    }
+}
+
+function createBoard5x5(key) {
+    
+    var letters = engAlphabets.join('');
+    var keyString = removeDuplicateLetters((key + letters).toUpperCase());
+    var playfairBoard = [
+        ['', '', '', '', ''], 
+        ['', '', '', '', ''], 
+        ['', '', '', '', ''], 
+        ['', '', '', '', ''], 
+        ['', '', '', '', '']
+    ];
+
+    keyArr = keyString.split('');
+
+    for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 5; j++) {
+            if (keyArr[0] == 'J') {
+                keyArr.shift();
+            }
+            playfairBoard[i][j] = keyArr.shift();
+        }
+    }
+
+    return playfairBoard;
+}
+
+function createBoard6x6(key, lang) {
+    
+    var letters = (lang === 'eng'? engNumAlphabets.join('') : arbAlphabets.join('')) ;
+    var keyString = removeDuplicateLetters((key + letters).toUpperCase());
+    var playfairBoard = [
+        ['', '', '', '', '', ''], 
+        ['', '', '', '', '', ''], 
+        ['', '', '', '', '', ''], 
+        ['', '', '', '', '', ''], 
+        ['', '', '', '', '', ''],
+        ['', '', '', '', '', '']
+    ];
+
+    keyArr = keyString.split('');
+
+    for (let i = 0; i < 6; i++) {
+        for (let j = 0; j < 6; j++) {
+            playfairBoard[i][j] = keyArr.shift();
+        }
+    }
+
+    return playfairBoard;
+}
+
+function encryptPlayfair(message, originalMessage, board, lang) {
+
+    var a, b, r1, c1, r2, c2, corA, corB;
+    var result = '';
+
+    for (let i = 0; i < message.length - 1; i+=2) {
+        
+        a = message[i];
+        b = message[i+1];
+
+        corA = getCoordinates(a, board);
+        corB = getCoordinates(b, board);
+
+        r1 = corA[0];
+        c1 = corA[1];
+        r2 = corB[0];
+        c2 = corB[1];
+
+        if (r1 == r2) {
+            
+            if (lang === 'eng' && board.length == 5) {
+                c1 = (c1 + 1) % 5;
+                c2 = (c2 + 1) % 5;
+            } else {
+                c1 = (c1 + 1) % 6;
+                c2 = (c2 + 1) % 6;
+            }
+            
+        } else if (c1 == c2) {
+            
+            if (lang === 'eng' && board.length == 5) {
+                r1 = (r1 + 1) % 5;
+                r2 = (r2 + 1) % 5;
+            } else {
+                r1 = (r1 + 1) % 6;
+                r2 = (r2 + 1) % 6;
+            }
+
+        } else {
+
+            let t = c1;
+            c1 = c2;
+            c2 = t;
+        }
+
+        result += (board[r1][c1] + board[r2][c2]);
+    }
+
+    result = addSymbolsToResult(result, originalMessage, board, lang);
+
+
+    return result;
+}
+
+function decryptPlayfair(message, originalMessage, board, lang) {
+
+    var a, b, r1, c1, r2, c2, corA, corB;
+    var result = '';
+
+    for (let i = 0; i < message.length - 1; i+=2) {
+        
+        a = message[i];
+        b = message[i+1];
+
+        corA = getCoordinates(a, board);
+        corB = getCoordinates(b, board);
+
+        r1 = corA[0];
+        c1 = corA[1];
+        r2 = corB[0];
+        c2 = corB[1];
+
+        if (r1 == r2) {
+            
+            if (lang === 'eng' && board.length == 5) {
+                c1 = (c1 + 4) % 5;
+                c2 = (c2 + 4) % 5;
+            } else {
+                c1 = (c1 + 5) % 6;
+                c2 = (c2 + 5) % 6;
+            }
+            
+        } else if (c1 == c2) {
+            
+            if (lang === 'eng' && board.length == 5) {
+                r1 = (r1 + 4) % 5;
+                r2 = (r2 + 4) % 5;
+            } else {
+                r1 = (r1 + 5) % 6;
+                r2 = (r2 + 5) % 6;
+            }
+
+        } else {
+
+            let t = c1;
+            c1 = c2;
+            c2 = t;
+        }
+
+        result += (board[r1][c1] + board[r2][c2]);
+    }
+
+    result = addSymbolsToResult(result, originalMessage, board, lang);
+
+    return result;
+}
+
+function addSymbolsToResult(message, originalMessage, board, lang) {
+
+    var result = '';
+
+    if (lang === 'eng' && board.length == 5) {
+        for (let i = j = 0; i < originalMessage.length; i++) {
+            if (/^[a-zA-Z]+$/.test(originalMessage[i])) {
+                result += message[j];
+                j++;
+            } else {
+                result += originalMessage[i];
+            }
+        }
+    } else if (lang === 'eng' && board.length == 6) {
+        for (let i = j = 0; i < originalMessage.length; i++) {
+            if (/\w/.test(originalMessage[i])) {
+                result += message[j];
+                j++;
+            } else {
+                result += originalMessage[i];
+            }
+        }
+    } else {
+        for (let i = j = 0; i < originalMessage.length; i++) {
+            if (/^[ء-ي]+$/.test(originalMessage[i])) {
+                result += message[j];
+                j++;
+            } else {
+                result += originalMessage[i];
+            }
+        }
+    }
+    return result;
+}
+
+function modifyMessage(message, lang, num) {
+
+    if (lang === 'eng' && num === 'include') {
+        message = message.replace(/[^\w]/g,'');
+    } else if (lang === 'eng' && num === 'execlude') {
+        message = message.replace(/[^\A-Z]/g,'');
+    } else {
+        message = message.replace(/[^\ء-ي]/g,'');
+    }
+
+    message = replaceDuplicateLetters(message, lang);
+
+    if (message.length % 2 == 1 && lang === 'eng') {
+        message.push('X');
+    } else if (message.length % 2 == 1 && lang === 'arb') {
+        message.push('ؤ');
+    }
+
+    return message;
+}
+
+function replaceDuplicateLetters(message, lang) {
+
+    var temp = [];
+
+    temp.push(message[0]);
+
+    for (let i = 0; i < message.length - 1; i++) {
+        if (message[i] === message[i + 1]) {
+            if (lang === 'eng') {
+                temp.push('X');
+            } else {
+                temp.push('ؤ');
+            }
+        } else {
+            temp.push(message[i + 1]);
+        }
+    }
+    
+    return temp;
+}
+
+function removeDuplicateLetters(string) {
+    return string
+    .split('')
+    .filter(function(item, pos, self) {
+      return self.indexOf(item) == pos;
+    })
+    .join('');
+}
+
+function getCoordinates(val, board) {
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board.length; j++) {
+            if (val === board[i][j]) {
+                return [i, j]
+            }
+        }
+    }
+}
 
 /********************* ~ OTHER FUNCTIONS ~ **********************/
 
@@ -543,18 +841,16 @@ function gcd(x, y) {
 
 /********************* ~ ANIMATIONS ~ **********************/
 
-$( document ).ready(function() {
-    
+$(document).ready(function () {
+
     $('.dropdown-menu').show();
     $('.dropdown-menu').hide();
 
-    var optionsLen = ($('.cipher-settings').height()/1.2);
+    var optionsLen = ($('.cipher-settings').height() / 1.2);
     console.log(optionsLen);
 
-    if (optionsLen > $('.input-settings').height()) {
-        $('.input-field').css("height", optionsLen);
-        $('.output-field').css("height", optionsLen);
-    }
+    $('.input-field').css("height", optionsLen);
+    $('.output-field').css("height", optionsLen);
 });
 
 $('.dropdown-toggle').focusout(function () {
@@ -564,4 +860,3 @@ $('.dropdown-toggle').focusout(function () {
 $('.dropdown-toggle').click(function () {
     $(this).next('.dropdown-menu').slideToggle(600);
 });
-

@@ -44,14 +44,14 @@
             <div class="btn-group">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside"
                     data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                    Affine Cipher
+                    Playfair Cipher
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
                     <li><a class="dropdown-item" href="index.html">Caesar Cipher</a></li>
                     <li><a class="dropdown-item" href="vigenere.html">Vigenere Cipher</a></li>
                     <li><a class="dropdown-item" href="monoalphabetic.html">Monoalphabetic Cipher</a></li>
+                    <li><a class="dropdown-item" href="affine.html">Affine Cipher</a></li>
                     <li><a class="dropdown-item" href="rail.html">Rail Fence Cipher</a></li>
-                    <li><a class="dropdown-item" href="playfair.html">Playfair Cipher</a></li>
                 </ul>
             </div>
 
@@ -89,16 +89,12 @@
                                 </select>
                             </div>
                             <div class="settings">
-                                <h5>Key 1:</h5>
-                                <input type="text" placeholder="Enter the first key..." id="key" class="form-control keys">
-                            </div>
-                            <div class="settings">
-                                <h5>Key 2:</h5>
-                                <input type="text" placeholder="Enter the second key..." id="key2" class="form-control keys">
+                                <h5>Key:</h5>
+                                <input type="text" placeholder="Enter the key..." id="key" class="form-control keys">
                             </div>
                             <div class="btn-settings">
-                                <button type="button" class="btn btn-primary dec" onclick="affineSolver(false);">Decrypt</button>
-                                <button type="button" class="btn btn-primary enc" onclick="affineSolver(true);">Encrypt</button>
+                                <button type="button" class="btn btn-primary dec" onclick="playfairSolver(false);">Decrypt</button>
+                                <button type="button" class="btn btn-primary enc" onclick="playfairSolver(true);">Encrypt</button>
                             </div>
                         </form>
                     </div>
