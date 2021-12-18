@@ -2,6 +2,7 @@
 var engAlphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 var engNumAlphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 var arbAlphabets = ['ء', 'آ', 'أ', 'ؤ', 'إ', 'ئ', 'ا', 'ب', 'ة', 'ت', 'ث', 'ج', 'ح', 'خ', 'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص', 'ض', 'ط', 'ظ', 'ع', 'غ', 'ف', 'ق', 'ك', 'ل', 'م', 'ن', 'ه', 'و', 'ى', 'ي'];
+
 /********************* ~ CAESAR CIPHER ~ **********************/
 
 function caesarSolver(encryption) {
@@ -780,6 +781,94 @@ function getCoordinates(val, board) {
             }
         }
     }
+}
+
+/********************* ~ ROW TRANSPOSITION CIPHER ~ **********************/
+
+function rowTranSolver(encryption) {
+
+    var key = document.getElementById('key').value;
+    var message = document.getElementById('cipher-text').value;
+    var result = document.getElementById('result-text');
+    var resultMessage;
+
+    if (encryption) {
+        resultMessage = encryptRowTransposition(message, key);
+        result.innerHTML = resultMessage;
+    } else {
+        resultMessage = decryptRowTransposition(message, key);
+        result.innerHTML = resultMessage;
+    }
+}
+
+function encryptRowTransposition(message, key) { 
+
+    var result = "";
+    var row = (Math.floor(message.length / key));
+
+    if (message.length % key != 0) {
+        row += 1;
+    }
+
+    var rowTran = new Array(row);
+
+    for (let i = 0; i < rowTran.length; i++) {
+        rowTran[i] = new Array(key);
+    }
+
+    for (let i = 0, k = 0; i < row; i++) {
+        for (let j = 0; j < key; j++){
+            console.log(rowTran);
+            if (k < message.length){
+                rowTran[i][j] = message.charAt(k++);
+            } else {
+                rowTran[i][j] = ' ';
+            }
+        }
+    }
+
+    for(let j = 0; j < key; j++) {
+        for(let i = 0; i < row; i++) {
+            result += rowTran[i][j];
+        }
+    }
+
+    return result;
+}
+
+function decryptRowTransposition(message, key) { 
+
+    var result = "";
+    var row = (Math.floor(message.length / key));
+
+    if (message.length % key != 0) {
+        row += 1;
+    }
+
+    var rowTran = new Array(row);
+
+    for (let i = 0; i < rowTran.length; i++) {
+        rowTran[i] = new Array(key);
+    }
+
+    for (let j = 0, k = 0; j < key; j++) {
+        for (let i = 0; i < row; i++){
+            console.log(rowTran);
+            if (k < message.length){
+                rowTran[i][j] = message.charAt(k++);
+            } else {
+                rowTran[i][j] = ' ';
+            }
+        }
+    }
+
+    for(let i = 0; i < row; i++) {
+        for(let j = 0; j < key; j++) {
+            result += rowTran[i][j];
+        }
+    }
+
+    return result;
 }
 
 /********************* ~ OTHER FUNCTIONS ~ **********************/

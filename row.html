@@ -43,10 +43,11 @@
             <hr>
             <div class="btn-group">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside"
-                    data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                    Caesar Cipher
+                    data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style="font-size: 1.35vw;">
+                    Row Transposition Cipher
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
+                    <li><a class="dropdown-item" href="index.html">Caesar Cipher</a></li>
                     <li><a class="dropdown-item" href="vigenere.html">Vigenere Cipher</a></li>
                     <li><a class="dropdown-item" href="monoalphabetic.html">Monoalphabetic Cipher</a></li>
                     <li><a class="dropdown-item" href="affine.html">Affine Cipher</a></li>
@@ -74,27 +75,12 @@
                     <div class="settings-field">
                         <form action="#" class="settings-form">
                             <div class="settings">
-                                <h5>Language:</h5>
-                                <select class="form-select" aria-label="language" name="language" id="lang-option"
-                                    onchange="showNumbersSelect();">
-                                    <option selected value="eng">English</option>
-                                    <option value="arb">Arabic</option>
-                                </select>
-                            </div>
-                            <div class="settings">
-                                <h5>Include numbers:</h5>
-                                <select class="form-select" aria-label="language" name="num" id="num-option">
-                                    <option selected value="include">Include</option>
-                                    <option value="execlude">Execlude</option>
-                                </select>
-                            </div>
-                            <div class="settings">
-                                <h5>Key:</h5>
+                                <h5>Rows:</h5>
                                 <input type="text" placeholder="Enter the key..." id="key" class="form-control keys">
                             </div>
                             <div class="btn-settings">
-                                <button type="button" class="btn btn-primary dec" onclick="caesarSolver(false);">Decrypt</button>
-                                <button type="button" class="btn btn-primary enc" onclick="caesarSolver(true);">Encrypt</button>
+                                <button type="button" class="btn btn-primary dec" onclick="rowTranSolver(false);">Decrypt</button>
+                                <button type="button" class="btn btn-primary enc" onclick="rowTranSolver(true);">Encrypt</button>
                             </div>
                         </form>
                     </div>
