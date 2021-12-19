@@ -493,13 +493,13 @@ function playfairSolver(encryption) {
     var message = document.getElementById('cipher-text').value.toUpperCase();
     var result = document.getElementById('result-text');
     var resultMessage;
-    
+
     document.getElementById('key').style.color = '';
 
     var board;
 
     if (lang === 'eng' && num === 'execlude') {
-        
+
         key = key.replace(/[^\a-zA-Z]/g, '');
 
         if ((/\d/).test(key)) {
@@ -510,15 +510,15 @@ function playfairSolver(encryption) {
 
         board = createBoard5x5(key);
     } else if (lang === 'eng' && num === 'include') {
-        
-        key = key.replace(/[^\w]/g,'');
+
+        key = key.replace(/[^\w]/g, '');
         board = createBoard6x6(key, lang);
     } else {
 
-        key = key.replace(/[^\ء-ي]/g,'');
+        key = key.replace(/[^\ء-ي]/g, '');
         board = createBoard6x6(key);
     }
-    
+
     resultMessage = modifyMessage(message, lang, num);
 
     if (encryption) {
@@ -531,14 +531,14 @@ function playfairSolver(encryption) {
 }
 
 function createBoard5x5(key) {
-    
+
     var letters = engAlphabets.join('');
     var keyString = removeDuplicateLetters((key + letters).toUpperCase());
     var playfairBoard = [
-        ['', '', '', '', ''], 
-        ['', '', '', '', ''], 
-        ['', '', '', '', ''], 
-        ['', '', '', '', ''], 
+        ['', '', '', '', ''],
+        ['', '', '', '', ''],
+        ['', '', '', '', ''],
+        ['', '', '', '', ''],
         ['', '', '', '', '']
     ];
 
@@ -557,14 +557,14 @@ function createBoard5x5(key) {
 }
 
 function createBoard6x6(key, lang) {
-    
-    var letters = (lang === 'eng'? engNumAlphabets.join('') : arbAlphabets.join('')) ;
+
+    var letters = (lang === 'eng' ? engNumAlphabets.join('') : arbAlphabets.join(''));
     var keyString = removeDuplicateLetters((key + letters).toUpperCase());
     var playfairBoard = [
-        ['', '', '', '', '', ''], 
-        ['', '', '', '', '', ''], 
-        ['', '', '', '', '', ''], 
-        ['', '', '', '', '', ''], 
+        ['', '', '', '', '', ''],
+        ['', '', '', '', '', ''],
+        ['', '', '', '', '', ''],
+        ['', '', '', '', '', ''],
         ['', '', '', '', '', ''],
         ['', '', '', '', '', '']
     ];
@@ -585,10 +585,10 @@ function encryptPlayfair(message, originalMessage, board, lang) {
     var a, b, r1, c1, r2, c2, corA, corB;
     var result = '';
 
-    for (let i = 0; i < message.length - 1; i+=2) {
-        
+    for (let i = 0; i < message.length - 1; i += 2) {
+
         a = message[i];
-        b = message[i+1];
+        b = message[i + 1];
 
         corA = getCoordinates(a, board);
         corB = getCoordinates(b, board);
@@ -599,7 +599,7 @@ function encryptPlayfair(message, originalMessage, board, lang) {
         c2 = corB[1];
 
         if (r1 == r2) {
-            
+
             if (lang === 'eng' && board.length == 5) {
                 c1 = (c1 + 1) % 5;
                 c2 = (c2 + 1) % 5;
@@ -607,9 +607,9 @@ function encryptPlayfair(message, originalMessage, board, lang) {
                 c1 = (c1 + 1) % 6;
                 c2 = (c2 + 1) % 6;
             }
-            
+
         } else if (c1 == c2) {
-            
+
             if (lang === 'eng' && board.length == 5) {
                 r1 = (r1 + 1) % 5;
                 r2 = (r2 + 1) % 5;
@@ -639,10 +639,10 @@ function decryptPlayfair(message, originalMessage, board, lang) {
     var a, b, r1, c1, r2, c2, corA, corB;
     var result = '';
 
-    for (let i = 0; i < message.length - 1; i+=2) {
-        
+    for (let i = 0; i < message.length - 1; i += 2) {
+
         a = message[i];
-        b = message[i+1];
+        b = message[i + 1];
 
         corA = getCoordinates(a, board);
         corB = getCoordinates(b, board);
@@ -653,7 +653,7 @@ function decryptPlayfair(message, originalMessage, board, lang) {
         c2 = corB[1];
 
         if (r1 == r2) {
-            
+
             if (lang === 'eng' && board.length == 5) {
                 c1 = (c1 + 4) % 5;
                 c2 = (c2 + 4) % 5;
@@ -661,9 +661,9 @@ function decryptPlayfair(message, originalMessage, board, lang) {
                 c1 = (c1 + 5) % 6;
                 c2 = (c2 + 5) % 6;
             }
-            
+
         } else if (c1 == c2) {
-            
+
             if (lang === 'eng' && board.length == 5) {
                 r1 = (r1 + 4) % 5;
                 r2 = (r2 + 4) % 5;
@@ -725,11 +725,11 @@ function addSymbolsToResult(message, originalMessage, board, lang) {
 function modifyMessage(message, lang, num) {
 
     if (lang === 'eng' && num === 'include') {
-        message = message.replace(/[^\w]/g,'');
+        message = message.replace(/[^\w]/g, '');
     } else if (lang === 'eng' && num === 'execlude') {
-        message = message.replace(/[^\A-Z]/g,'');
+        message = message.replace(/[^\A-Z]/g, '');
     } else {
-        message = message.replace(/[^\ء-ي]/g,'');
+        message = message.replace(/[^\ء-ي]/g, '');
     }
 
     message = replaceDuplicateLetters(message, lang);
@@ -760,17 +760,17 @@ function replaceDuplicateLetters(message, lang) {
             temp.push(message[i + 1]);
         }
     }
-    
+
     return temp;
 }
 
 function removeDuplicateLetters(string) {
     return string
-    .split('')
-    .filter(function(item, pos, self) {
-      return self.indexOf(item) == pos;
-    })
-    .join('');
+        .split('')
+        .filter(function (item, pos, self) {
+            return self.indexOf(item) == pos;
+        })
+        .join('');
 }
 
 function getCoordinates(val, board) {
@@ -801,7 +801,7 @@ function rowTranSolver(encryption) {
     }
 }
 
-function encryptRowTransposition(message, key) { 
+function encryptRowTransposition(message, key) {
 
     var result = "";
     var row = (Math.floor(message.length / key));
@@ -817,9 +817,8 @@ function encryptRowTransposition(message, key) {
     }
 
     for (let i = 0, k = 0; i < row; i++) {
-        for (let j = 0; j < key; j++){
-            console.log(rowTran);
-            if (k < message.length){
+        for (let j = 0; j < key; j++) {
+            if (k < message.length) {
                 rowTran[i][j] = message.charAt(k++);
             } else {
                 rowTran[i][j] = ' ';
@@ -827,8 +826,8 @@ function encryptRowTransposition(message, key) {
         }
     }
 
-    for(let j = 0; j < key; j++) {
-        for(let i = 0; i < row; i++) {
+    for (let j = 0; j < key; j++) {
+        for (let i = 0; i < row; i++) {
             result += rowTran[i][j];
         }
     }
@@ -836,7 +835,7 @@ function encryptRowTransposition(message, key) {
     return result;
 }
 
-function decryptRowTransposition(message, key) { 
+function decryptRowTransposition(message, key) {
 
     var result = "";
     var row = (Math.floor(message.length / key));
@@ -852,9 +851,8 @@ function decryptRowTransposition(message, key) {
     }
 
     for (let j = 0, k = 0; j < key; j++) {
-        for (let i = 0; i < row; i++){
-            console.log(rowTran);
-            if (k < message.length){
+        for (let i = 0; i < row; i++) {
+            if (k < message.length) {
                 rowTran[i][j] = message.charAt(k++);
             } else {
                 rowTran[i][j] = ' ';
@@ -862,9 +860,142 @@ function decryptRowTransposition(message, key) {
         }
     }
 
-    for(let i = 0; i < row; i++) {
-        for(let j = 0; j < key; j++) {
+    for (let i = 0; i < row; i++) {
+        for (let j = 0; j < key; j++) {
             result += rowTran[i][j];
+        }
+    }
+
+    return result;
+}
+
+/********************* ~ DOUBLE TRANSPOSITION CIPHER ~ **********************/
+
+function doubleSolver(encryption) {
+
+    var key1 = document.getElementById('key1').value;
+    var key2 = document.getElementById('key2').value;
+    var message = document.getElementById('cipher-text').value;
+    var result = document.getElementById('result-text');
+    var resultMessage;
+
+    if (encryption) {
+        resultMessage = encryptDoubleTransposition(message, key1, key2);
+        result.innerHTML = resultMessage;
+    } else {
+        resultMessage = decryptDoubleTransposition(message, key1, key2);
+        result.innerHTML = resultMessage;
+    }
+}
+
+function encryptDoubleTransposition(message, rowsKey, colsKey) {
+
+    var result = '';
+    var rows, cols;
+    var arr = [];
+
+    var rowsKey = rowsKey.split(" ");
+    var colsKey = colsKey.split(" ");
+
+    rows = rowsKey.length;
+    cols = colsKey.length;
+
+    for (let i = 0; i < rows; i++) {
+        let data = [];
+        for (let j = 0; j < cols; j++) {
+            data.push('');
+        }
+        arr.push(data);
+    }
+
+    for (let i = 0, k = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if (k < message.length) {
+                arr[i][j] = message.charAt(k++);
+            } else {
+                arr[i][j] = ' ';
+            }
+        }
+    }
+
+    var rowTransArr = [];
+
+    for (let row1 = 0, row2 = rowsKey[0] - 1; row1 < rows; row1++, row2 = rowsKey[row1] - 1) {
+        let data = [];
+        for (let n = 0; n < cols; n++) {
+            data.push(arr[row2][n]);
+        }
+        rowTransArr.push(data);
+    }
+
+    for (let col1 = 0, col2 = colsKey[0] - 1; col1 < cols; col1++, col2 = colsKey[col1] - 1) {
+        let data = [];
+        for (let n = 0; n < rows; n++) {
+            data.push(arr[col2][n]);
+        }
+        rowTransArr.push(data);
+    }
+
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            result += rowTransArr[i][j];
+        }
+    }
+
+    return result;
+}
+
+function decryptDoubleTransposition(message, rowsKey, colsKey) {
+
+    var result = '';
+    var rows, cols;
+    var arr = [];
+
+    var rowsKey = rowsKey.split(" ");
+    var colsKey = colsKey.split(" ");
+
+    rows = rowsKey.length;
+    cols = colsKey.length;
+
+    for (let i = 0; i < rows; i++) {
+        let data = [];
+        for (let j = 0; j < cols; j++) {
+            data.push('');
+        }
+        arr.push(data);
+    }
+
+    for (let i = 0, k = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if (k < message.length) {
+                arr[i][j] = message.charAt(k++);
+            } else {
+                arr[i][j] = ' ';
+            }
+        }
+    }
+
+    var rowTransArr = [];
+
+    for (let row1 = 0, row2 = rowsKey[0] - 1; row1 < rows; row1++, row2 = rowsKey[row1] - 1) {
+        let data = [];
+        for (let n = 0; n < cols; n++) {
+            data.push(arr[row2][n]);
+        }
+        rowTransArr.push(data);
+    }
+
+    for (let col1 = 0, col2 = colsKey[0] - 1; col1 < cols; col1++, col2 = colsKey[col1] - 1) {
+        let data = [];
+        for (let n = 0; n < rows; n++) {
+            data.push(arr[col2][n]);
+        }
+        rowTransArr.push(data);
+    }
+
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            result += rowTransArr[i][j];
         }
     }
 
@@ -936,7 +1067,6 @@ $(document).ready(function () {
     $('.dropdown-menu').hide();
 
     var optionsLen = ($('.cipher-settings').height() / 1.2);
-    console.log(optionsLen);
 
     $('.input-field').css("height", optionsLen);
     $('.output-field').css("height", optionsLen);

@@ -43,8 +43,8 @@
             <hr>
             <div class="btn-group">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside"
-                    data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                    Playfair Cipher
+                    data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style="font-size: 1.2vw;">
+                    Double Transposition Cipher
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
                     <li><a class="dropdown-item" href="index.html">Caesar Cipher</a></li>
@@ -52,8 +52,8 @@
                     <li><a class="dropdown-item" href="monoalphabetic.html">Monoalphabetic Cipher</a></li>
                     <li><a class="dropdown-item" href="affine.html">Affine Cipher</a></li>
                     <li><a class="dropdown-item" href="rail.html">Rail Fence Cipher</a></li>
+                    <li><a class="dropdown-item" href="playfair.html">Playfair Cipher</a></li>
                     <li><a class="dropdown-item" href="row.html">Row Transposition Cipher</a></li>
-                    <li><a class="dropdown-item" href="double.html">Double Transposition Cipher</a></li>
                 </ul>
             </div>
 
@@ -76,27 +76,16 @@
                     <div class="settings-field">
                         <form action="#" class="settings-form">
                             <div class="settings">
-                                <h5>Language:</h5>
-                                <select class="form-select" aria-label="language" name="language" id="lang-option"
-                                    onchange="showNumbersSelect();">
-                                    <option selected value="eng">English</option>
-                                    <option value="arb">Arabic</option>
-                                </select>
+                                <h5>Row Key:</h5>
+                                <input type="text" placeholder="Enter row key..." id="key1" class="form-control keys">
                             </div>
                             <div class="settings">
-                                <h5>Include numbers:</h5>
-                                <select class="form-select" aria-label="language" name="num" id="num-option">
-                                    <option selected value="include">Include</option>
-                                    <option value="execlude">Execlude</option>
-                                </select>
-                            </div>
-                            <div class="settings">
-                                <h5>Key:</h5>
-                                <input type="text" placeholder="Enter the key..." id="key" class="form-control keys">
+                                <h5>Column Key:</h5>
+                                <input type="text" placeholder="Enter column key..." id="key2" class="form-control keys">
                             </div>
                             <div class="btn-settings">
-                                <button type="button" class="btn btn-primary dec" onclick="playfairSolver(false);">Decrypt</button>
-                                <button type="button" class="btn btn-primary enc" onclick="playfairSolver(true);">Encrypt</button>
+                                <button type="button" class="btn btn-primary dec" onclick="doubleSolver(false);">Decrypt</button>
+                                <button type="button" class="btn btn-primary enc" onclick="doubleSolver(true);">Encrypt</button>
                             </div>
                         </form>
                     </div>
